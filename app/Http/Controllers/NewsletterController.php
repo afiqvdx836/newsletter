@@ -95,4 +95,18 @@ class NewsletterController extends Controller
         }
         
     }
+
+    public function delete($id){
+        $newsletter = Newsletter::findOrFail($id);
+        $img = $newsletter->image;
+        unlink($img);
+
+        Newsletter::findOrFail($id)->delete();
+        $notification = array(
+            'message' => 'Newsletter Deleted Successfully',
+            'alert-type' => 'info'
+        );
+
+        return redirect()->back()->with($notification);
+    }
 }

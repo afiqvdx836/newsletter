@@ -57,7 +57,7 @@
                             
                               <td>
                                   <a href="{{ route('newsletter.edit', $newsletter->id)}}" class="btn btn-info"><i class="fa fa-pencil" title="Edit Data"></i></a>
-                                  <a href="" class="btn btn-danger" id="delete"><i class="fa fa-trash" title="Delete Data"></i></a>
+                                  <a href="{{ route('newsletter.delete', $newsletter->id)}}" class="btn btn-danger" id="delete"><i class="fa fa-trash" title="Delete Data"></i></a>
                               </td>
                               
                             </tr>

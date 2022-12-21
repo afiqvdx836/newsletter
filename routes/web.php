@@ -32,6 +32,10 @@ Route::prefix('admin')->middleware(['is_admin','is_admin'])->group(function(){
     Route::get('/newsletter/edit/{id}', [NewsletterController::class, 'edit'])->name('newsletter.edit');
     Route::post('/newsletter/update/', [NewsletterController::class, 'update'])->name('newsletter.update');
 
+    Route::get('newsletter/delete/{id}', [NewsletterController::class, 'delete'])->name('newsletter.delete');
+    Route::get('newsletter/restore/one/{id}', [NewsletterController::class, 'restore'])->name('newsletter.restore');
+
+
 
 });
 
