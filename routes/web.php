@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\NewsletterController;
 
 /*
@@ -44,11 +45,10 @@ Route::prefix('admin')->middleware(['is_admin','is_admin'])->group(function(){
 
 
 
-});
-
-
+}); // end admin route
 
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
+Route::get('/users/newsletters', [UserController::class, 'index'])->name('newsletters.index')->middleware('auth');
+Route::get('/users/newsletters/{id}', [UserController::class, 'details'])->name('newsletters.details')->middleware('auth');
