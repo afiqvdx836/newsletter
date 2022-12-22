@@ -34,46 +34,34 @@
             <!-- /.box-header -->
             <div class="box-body">
                 <div class="table-responsive">
-                 
-
-                  <!-- table baru -->
-                  @if(request()->has('view_deleted'))
-                  <a href="{{ route('newsletters.index') }}" class="btn btn-info">View All Users</a>
-                  <br>
-                  <a href="{{ route('newsletters.restore.all') }}" class="btn btn-success">Restore All</a>
-              @else
-                  <a href="{{ route('newsletters.index', ['view_deleted' => 'DeletedRecords']) }}" class="btn btn-primary">View Delete Records</a>
-              @endif
-
-   
-            
-              <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                      <tr>
-                        <th>Image</th>
-                        <th>Title</th>
-                        <th>Content</th>
-
-                        <th>Action</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      @foreach($newsletters as $newsletter)
-                          <tr>
+                  <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Title</th>
+                            <th>Content</th>
+                            </th>
+                            <th>Action</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                    
+                      @foreach ($newsletters as $newsletter)
+                        <tr>
+                            
+                          
                             <td><img src="{{ asset($newsletter->image) }}" style="width: 70px; height=40px;" alt=""></td>
                             <td>{{ $newsletter->title }}</td>
                             <td>	{!! $newsletter->content !!}</td>
-                              <td>
-                                  @if(request()->has('view_deleted'))
-                                      <a href="{{ route('newsletter.restore', $newsletter->id) }}" class="btn btn-success">Restore</a>
-                                  @else
-                                  <a href="{{ route('newsletter.delete', $newsletter->id) }}" class="btn btn-danger" id="delete"><i class="fa fa-trash" title="Delete Data"></i></a>
-                                  @endif
-                              </td>
-                          </tr>
-                      @endforeach
-                  </tbody>
-              </table>
+                            
+                           
+                            </tr>
+                            @endforeach
+                      
+                    </tbody>
+                    
+                  </table>
                 </div>
             </div>
             <!-- /.box-body -->

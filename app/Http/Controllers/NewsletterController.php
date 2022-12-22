@@ -7,9 +7,18 @@ use Illuminate\Http\Request;
 use Image;
 class NewsletterController extends Controller
 {
-    public function index(){
-        $newsletters = Newsletter::all();
+    public function index(Request $request){
+        // $newsletters = Newsletter::all();
 
+        // return view('admin.newsletter.index', compact('newsletters'));
+        $newsletters = Newsletter::select("*");
+  
+        if ($request->has('view_deleted')) {
+            $newsletters = $newsletters->onlyTrashed();
+        }
+  
+        $newsletters = $newsletters->paginate(8);
+          
         return view('admin.newsletter.index', compact('newsletters'));
     }
 
@@ -22,30 +31,46 @@ class NewsletterController extends Controller
         $request->validate([
             'title' => 'required',
             'content' => 'required',
-            'image' => 'required',
             
         ]);
 
+        if ($request->file('image')) {
+            $image = $request->file('image');
+            $name_gen = hexdec(uniqid()). '.' .$image->getClientOriginalExtension();
+            Image::make($image)->resize(300,300)->save('upload/newsletter/'.$name_gen);
+            $save_url = 'upload/newsletter/'.$name_gen;
+    
+            Newsletter::insert([
+                'title' => $request->title,
+                'content' => $request->content,
 
-        $image = $request->file('image');
-        $name_gen = hexdec(uniqid()). '.' .$image->getClientOriginalExtension();
-        Image::make($image)->resize(300,300)->save('upload/newsletter/'.$name_gen);
-        $save_url = 'upload/newsletter/'.$name_gen;
+                'image' => $save_url,
+            ]);
+    
+            $notification = array(
+                'message' => 'Brand Added Successfully',
+                'alert-type' => 'info'
+            );
+    
+            return redirect()->route('newsletters.index')->with($notification);
+        } else {
+            Newsletter::insert([
+                'title' => $request->title,
+                'content' => $request->content,
 
-        Newsletter::insert([
-            'title' => $request->title,
-            'content' => $request->content,
-            'image' => $save_url,
-        ]);
-
-      $notification = array(
-        'message' => 'Newsletter Added Successfully',
-        'alert-type' => 'success'
-    );
-
-    return redirect()->back()->with($notification);
-
+             
+                 
+        
+                ]);
+        
+                $notification = array(
+                    'message' => 'Brand Updated Successfully',
+                    'alert-type' => 'info'
+                );
+        
+                return redirect()->route('newsletters.index')->with($notification);
     }
+}
 
     public function edit($id){
         $newsletter = Newsletter::findOrFail($id);
@@ -96,10 +121,38 @@ class NewsletterController extends Controller
         
     }
 
+    public function list(Request $request)
+    {
+        $newsletters = Newsletter::select("*");
+  
+        if ($request->has('view_deleted')) {
+            $newsletters = $newsletters->onlyTrashed();
+        }
+  
+        $newsletters = $newsletters->paginate(8);
+          
+        return view('admin.newsletter.list', compact('newsletters'));
+    }
+
+    public function trashed(Request $request)
+    {
+        $newsletters = Newsletter::select("*");
+  
+        if ($request->has('view_deleted')) {
+            $newsletters = $newsletters->onlyTrashed();
+        }
+  
+        $newsletters = $newsletters->paginate(8);
+          
+        return view('admin.newsletter.trashed', compact('newsletters'));
+    }
+
+
+
     public function delete($id){
         $newsletter = Newsletter::findOrFail($id);
         $img = $newsletter->image;
-        unlink($img);
+        
 
         Newsletter::findOrFail($id)->delete();
         $notification = array(
@@ -108,5 +161,19 @@ class NewsletterController extends Controller
         );
 
         return redirect()->back()->with($notification);
+    }
+
+    public function restore($id)
+    {
+        Newsletter::withTrashed()->find($id)->restore();
+  
+        return back();
+    }  
+
+    public function restoreAll()
+    {
+        Newsletter::onlyTrashed()->restore();
+  
+        return back();
     }
 }
