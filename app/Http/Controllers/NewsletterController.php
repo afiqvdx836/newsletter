@@ -120,20 +120,6 @@ class NewsletterController extends Controller
         }
         
     }
-
-    public function list(Request $request)
-    {
-        $newsletters = Newsletter::select("*");
-  
-        if ($request->has('view_deleted')) {
-            $newsletters = $newsletters->onlyTrashed();
-        }
-  
-        $newsletters = $newsletters->paginate(8);
-          
-        return view('admin.newsletter.list', compact('newsletters'));
-    }
-
     public function trashed(Request $request)
     {
         $newsletters = Newsletter::select("*");
@@ -175,5 +161,15 @@ class NewsletterController extends Controller
         Newsletter::onlyTrashed()->restore();
   
         return back();
+    }
+
+    public function deletePermanently($id)
+    {
+        $newsletter = Newsletter::where('id', $id)->withTrashed()->first();
+
+        $newsletter->forceDelete();
+
+        return redirect()->route('newsletters.index')
+            ->with('success', 'You successfully deleted the project fromt the Recycle Bin');
     }
 }

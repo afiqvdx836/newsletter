@@ -38,6 +38,9 @@ Route::prefix('admin')->middleware(['is_admin','is_admin'])->group(function(){
     Route::get('/newsletter/trashed', [NewsletterController::class, 'restore'])->name('newsletter.trashed');
     Route::get('/restoreAll', [NewsletterController::class, 'restoreAll'])->name('newsletters.restore.all');
 
+    Route::get('newsletter/recyclenewsletter/{id}', [NewsletterController::class, 'deletePermanently'])->name('newsletter.deletepermanently');
+
+
 
 
 
