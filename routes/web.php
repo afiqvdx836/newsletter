@@ -17,7 +17,7 @@ use App\Http\Controllers\NewsletterController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('newsletters.index');
 });
 
 Auth::routes();
@@ -27,7 +27,7 @@ Route::prefix('admin')->middleware(['is_admin','is_admin'])->group(function(){
     Route::get('/home', [HomeController::class, 'adminHome'])->name('admin.home');
 
     // Newsletter
-    Route::get('/newsletter/index', [NewsletterController::class, 'index'])->name('newsletters.index');
+    Route::get('/newsletter/index', [NewsletterController::class, 'index'])->name('admin.newsletters.index');
     Route::get('/newsletter/create', [NewsletterController::class, 'create'])->name('newsletter.create');
     Route::post('/newsletter/store', [NewsletterController::class, 'store'])->name('newsletter.store');
     Route::get('/newsletter/edit/{id}', [NewsletterController::class, 'edit'])->name('newsletter.edit');
@@ -50,5 +50,11 @@ Route::prefix('admin')->middleware(['is_admin','is_admin'])->group(function(){
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/users/newsletters', [UserController::class, 'index'])->name('newsletters.index')->middleware('auth');
+Route::get('/users/newsletters', [UserController::class, 'index'])->name('newsletters.index');
 Route::get('/users/newsletters/{id}', [UserController::class, 'details'])->name('newsletters.details')->middleware('auth');
+
+// Route::get('/trigger/{data}', function ($data) {
+//     Route::get('/users/newsletters', [UserController::class, 'index'])->name('newsletters.index');
+//     event(new App\Events\GetRequestEvent($data));
+// });
+

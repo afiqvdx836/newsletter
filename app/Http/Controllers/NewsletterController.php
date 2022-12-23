@@ -48,11 +48,11 @@ class NewsletterController extends Controller
             ]);
     
             $notification = array(
-                'message' => 'Brand Added Successfully',
+                'message' => 'Newsletter Added Successfully',
                 'alert-type' => 'info'
             );
     
-            return redirect()->route('newsletters.index')->with($notification);
+            return redirect()->route('admin.newsletters.index')->with($notification);
         } else {
             Newsletter::insert([
                 'title' => $request->title,
@@ -68,7 +68,7 @@ class NewsletterController extends Controller
                     'alert-type' => 'info'
                 );
         
-                return redirect()->route('newsletters.index')->with($notification);
+                return redirect()->route('admin.newsletters.index')->with($notification);
     }
 }
 
@@ -169,7 +169,7 @@ class NewsletterController extends Controller
 
         $newsletter->forceDelete();
 
-        return redirect()->route('newsletters.index')
+        return redirect()->route('admin.newsletters.index')
             ->with('success', 'You successfully deleted the project fromt the Recycle Bin');
     }
 }

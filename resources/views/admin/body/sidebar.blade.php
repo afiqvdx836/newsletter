@@ -34,7 +34,7 @@
             </span>
           </a>
           <ul class="treeview-menu">
-            <li><a href="{{ route('newsletters.index') }}"><i class="ti-more"></i> View Newsletter</a></li>
+            <li><a href="{{ route('admin.newsletters.index') }}"><i class="ti-more"></i> View Newsletter</a></li>
             <li><a href="{{ route('newsletter.create') }}"><i class="ti-more"></i> Create Newsletter</a></li>
             
           

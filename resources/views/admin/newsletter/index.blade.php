@@ -38,11 +38,11 @@
 
                   <!-- table baru -->
                   @if(request()->has('view_deleted'))
-                  <a href="{{ route('newsletters.index') }}" class="btn btn-info">View All Newsletters</a>
+                  <a href="{{ route('admin.newsletters.index') }}" class="btn btn-info">View All Newsletters</a>
                   <br>
                   <a href="{{ route('newsletters.restore.all') }}" class="btn btn-success">Restore All</a>
               @else
-                  <a href="{{ route('newsletters.index', ['view_deleted' => 'DeletedRecords']) }}" class="btn btn-primary">View Delete Newsletters</a>
+                  <a href="{{ route('admin.newsletters.index', ['view_deleted' => 'DeletedRecords']) }}" class="btn btn-primary">View Delete Newsletters</a>
               @endif
 
    
@@ -66,11 +66,12 @@
                               <td>
                                   @if(request()->has('view_deleted'))
                                       <a href="{{ route('newsletter.restore', $newsletter->id) }}" class="btn btn-success">Restore</a>
-                                      <a href="{{ route('newsletter.deletepermanently', $newsletter->id) }}" class="btn btn-danger" title="Permanently delete">
+                                      <a href="{{ route('newsletter.deletepermanently', $newsletter->id) }}" class="btn btn-danger" id="delete" title="Permanently delete">
                                        Permanently Delete
                                     </a>
                                       
                                   @else
+                                  <a href="{{ route('newsletter.edit', $newsletter->id) }}" class="btn btn-primary"><i class="fa fa-pencil" title="edit Data"></i></a>
                                   <a href="{{ route('newsletter.delete', $newsletter->id) }}" class="btn btn-danger" id="delete"><i class="fa fa-trash" title="Delete Data"></i></a>
                                   @endif
                               </td>
