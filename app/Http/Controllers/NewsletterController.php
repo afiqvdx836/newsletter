@@ -37,7 +37,7 @@ class NewsletterController extends Controller
         if ($request->file('image')) {
             $image = $request->file('image');
             $name_gen = hexdec(uniqid()). '.' .$image->getClientOriginalExtension();
-            Image::make($image)->resize(300,300)->save('upload/newsletter/'.$name_gen);
+            Image::make($image)->save('upload/newsletter/'.$name_gen);
             $save_url = 'upload/newsletter/'.$name_gen;
     
             Newsletter::insert([
@@ -84,22 +84,21 @@ class NewsletterController extends Controller
         if ($request->file('image')) {
             $image = $request->file('image');
             $name_gen = hexdec(uniqid()). '.' .$image->getClientOriginalExtension();
-            Image::make($image)->resize(300,300)->save('upload/newsletter/'.$name_gen);
+            Image::make($image)->save('upload/newsletter/'.$name_gen);
             $save_url = 'upload/newsletter/'.$name_gen;
     
             Newsletter::findOrFail($newsletter_id)->update([
                 'title' => $request->title,
                 'content' => $request->content,
-
                 'image' => $save_url,
             ]);
     
             $notification = array(
-                'message' => 'Brand Added Successfully',
+                'message' => 'Newsletter Added Successfully',
                 'alert-type' => 'info'
             );
     
-            return redirect()->route('newsletter.index')->with($notification);
+            return redirect()->route('admin.newsletters.index')->with($notification);
         } else {
             Newsletter::findOrFail($newsletter_id)->update([
                 'title' => $request->title,
@@ -111,11 +110,11 @@ class NewsletterController extends Controller
                 ]);
         
                 $notification = array(
-                    'message' => 'Brand Updated Successfully',
+                    'message' => 'Newsletter Updated Successfully',
                     'alert-type' => 'info'
                 );
         
-                return redirect()->route('newsletter.index')->with($notification);
+                return redirect()->route('admin.newsletters.index')->with($notification);
         
         }
         
