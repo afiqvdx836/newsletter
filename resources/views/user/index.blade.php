@@ -63,7 +63,7 @@
             </div>
         </header>
         <!-- Main Content-->
-        <div class="container px-4 px-lg-5">
+        <div class="container px-4 px-lg-5 target-div">
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
                     <!-- Post preview-->
@@ -101,6 +101,13 @@
                 </div>
             </div>
         </footer>
+
+        <script>
+       setTimeout(() => {
+        document.location.reload();
+        }, 30000);
+
+        </script>
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->
